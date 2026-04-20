@@ -1,0 +1,58 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#070809" />
+      <stop offset="0.5" stop-color="#15171C" />
+      <stop offset="1" stop-color="#252A31" />
+    </linearGradient>
+    <linearGradient id="roadMain" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#D9DEE8" stop-opacity="0.02" />
+      <stop offset="0.5" stop-color="#D9DEE8" stop-opacity="0.52" />
+      <stop offset="1" stop-color="#D9DEE8" stop-opacity="0.02" />
+    </linearGradient>
+    <linearGradient id="roadSoft" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#CCD3E0" stop-opacity="0.02" />
+      <stop offset="0.5" stop-color="#CCD3E0" stop-opacity="0.3" />
+      <stop offset="1" stop-color="#CCD3E0" stop-opacity="0.02" />
+    </linearGradient>
+    <radialGradient id="nodeGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 450) rotate(90) scale(430 860)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <rect width="1600" height="900" fill="url(#nodeGlow)" />
+
+  <g opacity="0.35">
+    <path d="M0 740H1600" stroke="#D7DCE5" stroke-opacity="0.12" stroke-width="1.5" />
+    <path d="M0 680H1600" stroke="#D7DCE5" stroke-opacity="0.12" stroke-width="1.2" />
+    <path d="M0 620H1600" stroke="#D7DCE5" stroke-opacity="0.12" stroke-width="1.2" />
+    <path d="M0 560H1600" stroke="#D7DCE5" stroke-opacity="0.1" stroke-width="1" />
+    <path d="M0 500H1600" stroke="#D7DCE5" stroke-opacity="0.08" stroke-width="1" />
+  </g>
+
+  <g stroke-linecap="round" fill="none">
+    <path d="M-40 790C180 690 300 650 470 520C620 410 760 360 930 350C1130 338 1280 420 1640 310" stroke="url(#roadMain)" stroke-width="16" />
+    <path d="M-40 840C170 760 370 720 560 610C780 480 950 520 1140 470C1310 424 1450 330 1640 210" stroke="url(#roadSoft)" stroke-width="10" />
+    <path d="M30 660C230 580 360 470 550 420C700 380 830 420 960 470C1130 536 1290 570 1510 540" stroke="url(#roadSoft)" stroke-width="8" />
+    <path d="M100 350C260 400 360 370 530 300C650 248 760 214 910 230C1100 250 1260 180 1510 90" stroke="url(#roadSoft)" stroke-width="7" />
+    <path d="M210 760C340 660 510 600 640 520C770 438 860 350 1030 300C1180 256 1330 290 1490 360" stroke="url(#roadMain)" stroke-width="6" stroke-dasharray="16 18" />
+  </g>
+
+  <g>
+    <circle cx="470" cy="520" r="11" fill="#DCE2EC" fill-opacity="0.42" />
+    <circle cx="930" cy="350" r="11" fill="#DCE2EC" fill-opacity="0.42" />
+    <circle cx="1140" cy="470" r="10" fill="#DCE2EC" fill-opacity="0.36" />
+    <circle cx="560" cy="610" r="9" fill="#DCE2EC" fill-opacity="0.32" />
+    <circle cx="1030" cy="300" r="9" fill="#DCE2EC" fill-opacity="0.32" />
+    <circle cx="760" cy="360" r="7" fill="#DCE2EC" fill-opacity="0.28" />
+  </g>
+
+  <g opacity="0.26" fill="none" stroke="#C5CCD8" stroke-linecap="round">
+    <path d="M120 820C240 770 300 720 360 630" stroke-width="2" />
+    <path d="M130 790C250 740 330 680 390 600" stroke-width="1.6" />
+    <path d="M1120 790C1260 730 1370 640 1440 520" stroke-width="2" />
+    <path d="M1090 760C1230 700 1340 620 1410 500" stroke-width="1.6" />
+  </g>
+</svg>
