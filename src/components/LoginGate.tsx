@@ -59,7 +59,6 @@ export function LoginGate({ onAuthenticated }: LoginGateProps) {
                   id="username"
                   name="username"
                   autoComplete="username"
-                  placeholder="anto"
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
                 />
@@ -72,7 +71,6 @@ export function LoginGate({ onAuthenticated }: LoginGateProps) {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  placeholder="uoc"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                 />

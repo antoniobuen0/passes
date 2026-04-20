@@ -2,14 +2,12 @@
 
 Dashboard de ranking con login previo y despliegue en GitHub Pages.
 
-## Stack
+## Qué incluye
 
-- React 19 + TypeScript + Vite
-- Tailwind CSS + componentes base estilo shadcn/ui
-- Framer Motion
-- Three.js + React Three Fiber
-- Shader GLSL (raymarching + caustics)
-- WGSL/WebGPU opcional para capa visual del hero (si el navegador lo soporta)
+- Login previo
+- Edición manual de km y pasos para cualquier miembro del equipo
+- Ranking actual, simulador y proyección de cierre
+- Despliegue automático en GitHub Pages
 
 ## Desarrollo local
 
