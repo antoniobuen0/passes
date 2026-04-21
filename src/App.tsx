@@ -66,26 +66,27 @@ type VisibleGap = {
 };
 
 const INITIAL_TEAM_DATA: Member[] = [
-  { id: 1, name: "Alberto Perez", km: 181.4, steps: 244807 },
-  { id: 2, name: "Guillem Ferrer", km: 151.7, steps: 204829 },
-  { id: 3, name: "Rosa Saez", km: 138.7, steps: 187172 },
-  { id: 4, name: "Nuria Vilar", km: 135.2, steps: 182589 },
-  { id: 5, name: "Lidia Lepiani", km: 99.5, steps: 134369 },
-  { id: 6, name: "Anna Roca", km: 96.1, steps: 129644 },
-  { id: 7, name: "Puri Martin", km: 94.0, steps: 126993 },
-  { id: 8, name: "Marta Trigueros", km: 91.8, steps: 123947 },
-  { id: 9, name: "Sandra Castellet", km: 91.8, steps: 123878 },
-  { id: 10, name: "Anna Amouroux", km: 91.7, steps: 123751 },
-  { id: 11, name: "Cristina Sanjose", km: 90.3, steps: 121900 },
-  { id: 12, name: "Antonio Bueno", km: 33.3, steps: 44924, isUser: true },
+  { id: 1, name: "Alberto Perez", km: 195.8, steps: 264205 },
+  { id: 2, name: "Guillem Ferrer", km: 161.9, steps: 218432 },
+  { id: 3, name: "Rosa Saez", km: 139.4, steps: 188009 },
+  { id: 4, name: "Nuria Vilar", km: 143.4, steps: 193480 },
+  { id: 5, name: "Lidia Lepiani", km: 104.2, steps: 140557 },
+  { id: 6, name: "Anna Roca", km: 96.3, steps: 129914 },
+  { id: 7, name: "Puri Martin", km: 94.2, steps: 127094 },
+  { id: 8, name: "Marta Trigueros", km: 94.9, steps: 127971 },
+  { id: 9, name: "Sandra Castellet", km: 105.2, steps: 141921 },
+  { id: 10, name: "Anna Amouroux", km: 103.5, steps: 139633 },
+  { id: 11, name: "Cristina Sanjose", km: 91.7, steps: 123732 },
+  { id: 12, name: "Antonio Bueno", km: 40.4, steps: 54549, isUser: true },
 ];
 
-const CUT_DATE = new Date("2026-04-20T14:54:00");
+const CUT_DATE = new Date("2026-04-21T15:46:00");
+const SIMULATED_TODAY = new Date("2026-04-21T00:00:00");
 const USER_REAL_START_DATE = new Date("2026-04-20T00:00:00");
-const DAYS_ELAPSED = 8;
+const DAYS_ELAPSED = 9;
 const TODAY_STEPS_FIXED = 26399;
 const FALLBACK_STEPS_PER_KM = 1349;
-const TEAM_DATA_STORAGE_KEY = "passes-team-data";
+const TEAM_DATA_STORAGE_KEY = "passes-team-data-v2026-04-21";
 
 const numberFormat = new Intl.NumberFormat("es-ES");
 const kmFormat = new Intl.NumberFormat("es-ES", {
@@ -99,6 +100,11 @@ const kmFormat2 = new Intl.NumberFormat("es-ES", {
 const dateFormat = new Intl.DateTimeFormat("es-ES", {
   day: "2-digit",
   month: "2-digit",
+});
+const dateFullFormat = new Intl.DateTimeFormat("es-ES", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
 });
 
 function clamp(value: number, min: number, max: number) {
@@ -722,7 +728,21 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
         member.id === memberId
           ? {
               ...member,
-              [field]: Number.isNaN(nextValue) ? 0 : Math.max(nextValue, 0),
+              ...(field === "km"
+                ? {
+                    km: Number.isNaN(nextValue) ? 0 : Math.max(nextValue, 0),
+                    steps: Number.isNaN(nextValue)
+                      ? 0
+                      : Math.round(kmToSteps(Math.max(nextValue, 0), model.stepsPerKm)),
+                  }
+                : {
+                    steps: Number.isNaN(nextValue) ? 0 : Math.max(Math.round(nextValue), 0),
+                    km: Number.isNaN(nextValue)
+                      ? 0
+                      : Number(
+                          stepsToKm(Math.max(Math.round(nextValue), 0), model.stepsPerKm).toFixed(1)
+                        ),
+                  }),
             }
           : member
       )
@@ -765,6 +785,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 }
                 className="h-9 min-w-24 rounded-full border border-[#e8e8ed] bg-white px-3 text-sm text-[#333336]"
                 aria-label="Unidad"
+                title="Unidad"
               >
                 <option value="steps">Pasos</option>
                 <option value="km">Km</option>
@@ -849,6 +870,9 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                   <CardTitle className="text-white">
                     {formatValueByUnit(TODAY_STEPS_FIXED, state.unit, model.stepsPerKm, 2)}
                   </CardTitle>
+                  <CardDescription className="text-white/70">
+                    Hoy simulado: {dateFullFormat.format(SIMULATED_TODAY)}
+                  </CardDescription>
                 </CardHeader>
               </Card>
             </div>
@@ -866,7 +890,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
               Radiografía del equipo
             </h2>
             <p className="mt-3 max-w-4xl text-base leading-7 text-[#333336]">
-              Datos del corte 20/04/2026. En modo real se descuenta tu acumulado previo a la
+              Datos del corte {dateFullFormat.format(CUT_DATE)} (hoy simulado: {dateFullFormat.format(SIMULATED_TODAY)}).
+              En modo real se descuenta tu acumulado previo a la
               competición y se recalcula todo el modelo sobre la marcha.
             </p>
           </motion.div>
@@ -917,6 +942,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                     setState((prev) => ({ ...prev, sortBy: event.target.value as SortBy }))
                   }
                   className="h-10 rounded-md border border-slate-300 bg-white px-3 text-sm"
+                  aria-label="Ordenar ranking"
+                  title="Ordenar ranking"
                 >
                   <option value="steps">Pasos totales</option>
                   <option value="daily">Media diaria</option>
@@ -969,8 +996,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
               <div>
                 <CardTitle>Editar datos del equipo</CardTitle>
                 <CardDescription>
-                  Puedes introducir a mano los valores de cualquier miembro y el ranking se recalcula
-                  al instante.
+                  Puedes introducir a mano km o pasos de cualquier miembro: la otra métrica se
+                  sincroniza automáticamente y el ranking se recalcula al instante.
                 </CardDescription>
               </div>
 
@@ -1139,6 +1166,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                           setState((prev) => ({ ...prev, othersMode: event.target.value as OthersMode }))
                         }
                         className="h-11 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900"
+                        aria-label="Escenario del equipo"
+                        title="Escenario del equipo"
                       >
                         <option value="freeze">No suman más</option>
                         <option value="current">Mantienen media</option>
@@ -1500,7 +1529,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       </main>
 
       <footer className="border-t border-slate-200 bg-white/70 py-6 text-center text-sm text-slate-500">
-        passes · despliegue GitHub Pages · corte de datos 20/04/2026
+        passes · despliegue GitHub Pages · corte de datos 21/04/2026
       </footer>
 
       <AnimatePresence>
